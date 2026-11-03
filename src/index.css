@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 150 14% 97%;
+    --foreground: 163 14% 17%;
+    --card: 150 14% 99%;
+    --card-foreground: 163 14% 17%;
+    --popover: 150 14% 99%;
+    --popover-foreground: 163 14% 17%;
+    --primary: 163 14% 17%;
+    --primary-foreground: 150 14% 98%;
+    --secondary: 150 13.0% 92%;
+    --secondary-foreground: 163 14% 17%;
+    --muted: 150 13.0% 92%;
+    --muted-foreground: 162 11.0% 39%;
+    --accent: 16 14% 60%;
+    --accent-foreground: 16 14% 12%;
+    --destructive: 0 14% 48%;
+    --destructive-foreground: 0 0.0% 98%;
+    --border: 156 13.0% 84%;
+    --input: 156 13.0% 84%;
+    --ring: 16 14% 60%;
+    --radius: 0.75rem;
+    --ink: oklch(0.34 0.025 155);
+    --ink-deep: oklch(0.27 0.018 155);
+    --paper: #f1eee9;
+    --surface: #faf8f4;
+    --soft: #e7e5de;
+    --line: #d2d1c9;
+    --muted-text: #656b65;
+    --orange: #976f60;
+    --orange-dark: #805d50;
+    --star: #d6c8a7;
+    --danger: #985f5d;
+  }
+
+  * { @apply border-border; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-background text-foreground;
+    margin: 0;
+    min-width: 320px;
+    min-height: 100dvh;
+    font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  button, input, textarea, select { font: inherit; }
+  button, a, label { -webkit-tap-highlight-color: transparent; }
+  button { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  ::selection { background: var(--star); color: var(--ink-deep); }
+  :focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+}

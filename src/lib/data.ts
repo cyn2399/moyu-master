@@ -183,3 +183,7 @@ export function contestDeadline(contest: Contest) {
  if(contest.customDeadline || contest.deadlineOverride) return new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date((contest.customDeadline ?? contest.deadlineOverride)!)) + (contest.customDeadline ? ' 截止' : ' 截止（临时测试）')
  return (contest.period === 'morning' ? '12:00' : '18:00') + ' 截止'
 }
+
+export function totalReceivedVotes(contests: Contest[], userId: string) {
+ return contests.reduce((total, contest) => total + Object.values(contest.votes).filter(id => id === userId).length, 0)
+}

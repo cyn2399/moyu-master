@@ -227,6 +227,9 @@ function contestDeadline(contest) {
   if (contest.customDeadline || contest.deadlineOverride) return new Intl.DateTimeFormat("zh-CN", { timeZone: "Asia/Shanghai", hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date(contest.customDeadline ?? contest.deadlineOverride)) + (contest.customDeadline ? " \u622A\u6B62" : " \u622A\u6B62\uFF08\u4E34\u65F6\u6D4B\u8BD5\uFF09");
   return (contest.period === "morning" ? "12:00" : "18:00") + " \u622A\u6B62";
 }
+function totalReceivedVotes(contests, userId) {
+  return contests.reduce((total, contest) => total + Object.values(contest.votes).filter((id) => id === userId).length, 0);
+}
 export {
   STORAGE_KEY,
   contestDeadline,
@@ -243,5 +246,6 @@ export {
   stateLabels,
   toDateKey,
   toMonthKey,
+  totalReceivedVotes,
   voteCount
 };

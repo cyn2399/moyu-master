@@ -1,10 +1,12 @@
 import type { ReactNode } from 'react'
 import { Building2, CalendarDays, Clock3, Crown, Fish, History, LogOut, Medal, Plus, Share2, UserRound } from 'lucide-react'
-import { formatChineseDate } from '@/lib/data'
-import type { PageKey, Profile } from '@/types'
+import { formatChineseDate, totalReceivedVotes } from '@/lib/data'
+import type { PageKey, Profile, Contest } from '@/types'
 import { IdentityAvatar } from './IdentityAvatar'
 
 interface AppShellProps {
+  hasSelectedContest: boolean
+  contests: Contest[]
   user: Profile
   page: PageKey
   children: ReactNode
@@ -31,7 +33,7 @@ const pageTitles: Record<PageKey, { title: string; subtitle: string }> = {
   history: { title: '夺冠记录', subtitle: '那些消失在工位、又出现在领奖台的瞬间。' },
 }
 
-export function AppShell({ user, page, children, onNavigate, onCreate, onShare, onProfile, onLogout }: AppShellProps) {
+export function AppShell({ user, contests, hasSelectedContest, page, children, onNavigate, onCreate, onShare, onProfile, onLogout }: AppShellProps) {
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -54,7 +56,7 @@ export function AppShell({ user, page, children, onNavigate, onCreate, onShare, 
         </div>
         <div className="sidebar-user">
           <IdentityAvatar name={user.nickname} color={user.color} size="sm" />
-          <button className="sidebar-user-name" type="button" onClick={onProfile}><strong>{user.nickname}</strong><span>{user.stars} 颗星 · {user.wins} 次夺冠</span></button>
+          <button className="sidebar-user-name" type="button" onClick={onProfile}><strong>{user.nickname}</strong><span>{totalReceivedVotes(contests,user.id)} 票 · {user.stars} 颗星 · {user.wins} 次夺冠</span></button>
           <button className="icon-button" type="button" onClick={onLogout} aria-label="退出当前身份" title="退出当前身份"><LogOut size={17} /></button>
         </div>
       </aside>
@@ -62,7 +64,7 @@ export function AppShell({ user, page, children, onNavigate, onCreate, onShare, 
       <div className="main-column">
         <header className="mobile-header">
           <button className="app-brand" type="button" onClick={() => onNavigate('today')}><span className="brand-mark"><Fish size={21} /></span><strong>墨鱼 master</strong></button>
-          <button className="icon-button mobile-share" type="button" onClick={onShare} aria-label="分享评比"><Share2 size={19} /></button>
+          <div className="mobile-context-actions">{page==='today'&&hasSelectedContest&&<button className="icon-button mobile-share" type="button" onClick={onShare} aria-label="邀请同事"><Share2 size={19}/></button>}<button className="button button-accent mobile-create-only" type="button" onClick={onCreate}><Plus size={16}/>发起评比</button></div>
         </header>
         <header className="content-header">
           <div>
@@ -70,10 +72,7 @@ export function AppShell({ user, page, children, onNavigate, onCreate, onShare, 
             <h1>{pageTitles[page].title}</h1>
             <p>{pageTitles[page].subtitle}</p>
           </div>
-          <div className="header-actions">
-            <button className="button button-secondary" type="button" onClick={onShare}><Share2 size={17} />邀请同事</button>
-            <button className="button button-primary" type="button" onClick={onCreate}><Plus size={17} />发起评比</button>
-          </div>
+          {page==='today'&&hasSelectedContest&&<div className="header-actions"><button className="button button-secondary" type="button" onClick={onShare}><Share2 size={17}/>邀请同事</button></div>}
         </header>
         <main className="content-area">{children}</main>
       </div>

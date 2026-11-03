@@ -56,7 +56,7 @@ export default function App() {
 
   return (
     <>
-      <AppShell
+      <AppShell hasSelectedContest={Boolean(selectedContest)} contests={data.contests}
         user={currentUser} page={page} onNavigate={navigate}
         onCreate={() => setCreateOpen(true)} onShare={() => setShareOpen(true)}
         onProfile={() => navigate('profile')} onLogout={() => { logout(); navigate('today') }}
